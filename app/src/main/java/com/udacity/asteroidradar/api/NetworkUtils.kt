@@ -1,12 +1,14 @@
 package com.udacity.asteroidradar.api
-
+//adOPm1dXcoPNl7XhnBAgszfyvhUO2kNQugwTEMAG
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import org.json.JSONObject
+import retrofit2.http.GET
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+@GET("asteroid")
 fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")
 
