@@ -9,9 +9,9 @@ import kotlinx.coroutines.launch
 
 enum class ASteroidApiStatus { LOADING, ERROR, DONE }
 
-class MainViewModel (
-        val database: AsteroidsDatabaseDao,
-        application: Application) : AndroidViewModel(application){
+private const val API_KEY = "gCwa5SHxwetinsEAoxL9ZP2XABjrtcCJBvdO90pK"
+
+class MainViewModel (application: Application) : AndroidViewModel(application){
 
         private val _status = MutableLiveData<ASteroidApiStatus>()
         val status: LiveData<ASteroidApiStatus>
@@ -39,11 +39,12 @@ class MainViewModel (
         init {
             getNASAAsteroids()
         }
+
         private fun getNASAAsteroids() {
                 viewModelScope.launch {
                         _status.value = ASteroidApiStatus.LOADING
                         try {
-                                _asteroids.value = AsteroidApi.retrofitService.getProperties()
+                                _asteroids.value = AsteroidApi.retrofitService.getProperties(API_KEY)
                                 _status.value = ASteroidApiStatus.DONE
                         } catch (e: Exception) {
                                 _status.value = ASteroidApiStatus.ERROR
