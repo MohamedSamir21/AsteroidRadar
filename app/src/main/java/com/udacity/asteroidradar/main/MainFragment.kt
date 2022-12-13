@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -46,5 +47,18 @@ class MainFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return true
+    }
+
+
+    init {
+        instance = this
+    }
+
+    companion object {
+        private var instance: MainFragment? = null
+
+        fun applicationContext() : Context {
+            return instance!!.requireContext()
+        }
     }
 }
