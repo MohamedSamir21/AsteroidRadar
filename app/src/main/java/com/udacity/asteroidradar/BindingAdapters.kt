@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -7,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.udacity.asteroidradar.main.ASteroidApiStatus
 import com.udacity.asteroidradar.main.AsteroidAdapter
 
 @BindingAdapter("listData")
@@ -34,7 +36,8 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                )
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.wifi))
             .into(imgView)
     }
 }
@@ -64,4 +67,21 @@ fun bindTextViewToKmUnit(textView: TextView, number: Double) {
 fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
+}
+
+@BindingAdapter("asteroidApiStatus")
+fun bindStatus(statusImageView: ImageView, status: ASteroidApiStatus?) {
+    when (status) {
+        ASteroidApiStatus.LOADING -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.loading)
+        }
+        ASteroidApiStatus.ERROR -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.loading)
+        }
+        ASteroidApiStatus.DONE -> {
+            statusImageView.visibility = View.GONE
+        }
+    }
 }

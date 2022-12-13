@@ -39,8 +39,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         // The external immutable LiveData for the navigation property
 
 
-        private val _pictureOfDay = MutableLiveData<String>()
-        val pictureOfDay: LiveData<String>
+        private val _pictureOfDay = MutableLiveData<PictureOfDay>()
+        val pictureOfDay: LiveData<PictureOfDay>
                 get() = _pictureOfDay
 
         init {
