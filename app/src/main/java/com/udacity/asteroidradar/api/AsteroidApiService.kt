@@ -1,11 +1,10 @@
 package com.udacity.asteroidradar.api
-//gCwa5SHxwetinsEAoxL9ZP2XABjrtcCJBvdO90pK
+
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.Constants.API_KEY
 import com.udacity.asteroidradar.PictureOfDay
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -43,7 +42,6 @@ object AsteroidApi {
     val retrofitService : AsteroidApiService by lazy { retrofit.create(AsteroidApiService::class.java) }
 }
 
-private const val API_KEY = "gCwa5SHxwetinsEAoxL9ZP2XABjrtcCJBvdO90pK"
 
 private fun apiKeyInterceptor(it: Interceptor.Chain): Response {
     val originalRequest = it.request()

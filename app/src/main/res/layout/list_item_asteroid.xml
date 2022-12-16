@@ -10,20 +10,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/asteroid_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
             android:text="@{asteroid.codename}"
             android:textColor="@color/default_text_color"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Asteroid Item Test" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/asteroid_item_date"
@@ -31,23 +29,20 @@
             android:layout_height="wrap_content"
             android:text="@{asteroid.closeApproachDate}"
             android:textColor="@color/text_grey"
-            android:textSize="14sp"
             android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/asteroid_item_name"
-            tools:text="1970-01-01" />
+            app:layout_constraintTop_toBottomOf="@id/asteroid_item_name" />
 
         <ImageView
             android:id="@+id/asteroid_item_hazard_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:padding="5dp"
             android:src="@drawable/ic_status_potentially_hazardous"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:statusIcon="@{asteroid.potentiallyHazardous}"
-            tools:text="Asteroid Item Test" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:statusIcon="@{asteroid.potentiallyHazardous}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

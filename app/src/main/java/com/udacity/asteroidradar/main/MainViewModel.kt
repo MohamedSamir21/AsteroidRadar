@@ -4,19 +4,13 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.Asteroid
-
-import com.udacity.asteroidradar.Constants
-import com.udacity.asteroidradar.PictureOfDay
-import com.udacity.asteroidradar.api.AsteroidApi
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
-
+import com.udacity.asteroidradar.database.AsteroidsDatabase.Companion.getInstance
+import com.udacity.repository.AsteroidRepository
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import retrofit2.await
 
 
 enum class ASteroidApiStatus { LOADING, ERROR, DONE }
-private const val API_KEY = "gCwa5SHxwetinsEAoxL9ZP2XABjrtcCJBvdO90pK"
+
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
@@ -24,58 +18,73 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val status: LiveData<ASteroidApiStatus>
                 get() = _status
 
-        /* val picture: LiveData<PictureOfDay>
-             get() = repository.picture*/
-
         private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
         val navigateToSelectedAsteroid: LiveData<Asteroid>
                 get() = _navigateToSelectedAsteroid
 
 
-        private val _asteroids = MutableLiveData<List<Asteroid>>()
-        val asteroids: LiveData<List<Asteroid>>
-                get() = _asteroids
+        private val database = getInstance(application)
+        private val asteroidRepository = AsteroidRepository(database)
 
-        // The external immutable LiveData for the navigation property
+        val mediatorAsteroids = MediatorLiveData<List<Asteroid>>()
+        private val weekAsteroids = asteroidRepository.weekAsteroids
+        private val todayAsteroids = asteroidRepository.todayAsteroids
 
-
-        private val _pictureOfDay = MutableLiveData<PictureOfDay>()
-        val pictureOfDay: LiveData<PictureOfDay>
-                get() = _pictureOfDay
+        val pictureOfDay = asteroidRepository.pictureOfDay
 
         init {
                 getNASAAsteroids()
+                mediatorAsteroids.addSource(weekAsteroids) {
+                        mediatorAsteroids.value = it
+                }
         }
-
         private fun getNASAAsteroids() {
                 viewModelScope.launch {
                         _status.value = ASteroidApiStatus.LOADING
                         try {
-                                Log.i("MainViewModel", "Oh No!!")
-                                val asteroid = AsteroidApi.retrofitService.getProperties(API_KEY)
-                                val json = JSONObject(asteroid)
-                                val data = parseAsteroidsJsonResult(json)
-                                _asteroids.value = data
-
-                                _pictureOfDay.value = AsteroidApi.retrofitService.getPictureOfDay(API_KEY)
-
-
+                                asteroidRepository.updateAsteroids()
+                                asteroidRepository.updatePictureOfDay()
                                 _status.value = ASteroidApiStatus.DONE
                         } catch (e: Exception) {
+                                Log.i("MainViewModel", e.message.toString())
                                 _status.value = ASteroidApiStatus.ERROR
-                                Log.i("MainViewModel", _asteroids.value.toString())
-                                _asteroids.value = ArrayList()
                         }
                 }
         }
+
+
+        fun viewSavedAsteroids() {
+                mediatorAsteroids.removeSource(todayAsteroids)
+                mediatorAsteroids.removeSource(weekAsteroids)
+                mediatorAsteroids.addSource(weekAsteroids) {
+                        mediatorAsteroids.value = it
+                }
+
+        }
+
+        fun viewWeekAsteroids() {
+                mediatorAsteroids.removeSource(todayAsteroids)
+                mediatorAsteroids.removeSource(weekAsteroids)
+                mediatorAsteroids.addSource(weekAsteroids) {
+                        mediatorAsteroids.value = it
+                }
+
+        }
+
+
+        fun viewTodayAsteroid() {
+                mediatorAsteroids.removeSource(todayAsteroids)
+                mediatorAsteroids.removeSource(weekAsteroids)
+                mediatorAsteroids.addSource(todayAsteroids) {
+                        mediatorAsteroids.value = it
+                }
+        }
+
 
         fun displayAsteroidDetails(asteroid: Asteroid) {
                 _navigateToSelectedAsteroid.value = asteroid
         }
 
-        /**
-         * After the navigation has taken place, make sure navigateToSelectedProperty is set to null
-         */
         fun displayAsteroidDetailsComplete() {
                 _navigateToSelectedAsteroid.value = null
         }

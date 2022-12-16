@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
 
         viewModel.navigateToSelectedAsteroid.observe(viewLifecycleOwner, Observer {
             if ( null != it ) {
-                this.findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
+                findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
                 viewModel.displayAsteroidDetailsComplete()
             }
         })
@@ -46,6 +46,11 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.show_week_asteroids-> viewModel.viewWeekAsteroids()
+            R.id.show_saved_asteroids -> viewModel.viewSavedAsteroids()
+            R.id.show_today_asteroids-> viewModel.viewTodayAsteroid()
+        }
         return true
     }
 

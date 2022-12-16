@@ -1,11 +1,16 @@
-package com.udacity.database
+package com.udacity.asteroidradar.database
 
 import android.content.Context
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.PictureOfDay
+import com.udacity.database.AsteroidsDatabaseDao
 
+@Database(entities = [Asteroid::class, PictureOfDay::class], version = 1)
 abstract class AsteroidsDatabase: RoomDatabase() {
 
+    abstract val pictureDao: PictureOfDayDao
     abstract val asteroidsDatabaseDao: AsteroidsDatabaseDao
 
     companion object{
@@ -28,5 +33,23 @@ abstract class AsteroidsDatabase: RoomDatabase() {
                 return instance
             }
         }
+    }
+}
+
+@Dao
+interface PictureOfDayDao{
+    @Query("SELECT * FROM PictureOfDay")
+    fun getPictureOfDay(): LiveData<PictureOfDay>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(pictureOfDay:  PictureOfDay)
+
+    @Query("DELETE FROM PictureOfDay")
+    fun deleteOldPictureOfDay()
+
+    @Update
+    fun updatePictureOfDay(pictureOfDay: PictureOfDay){
+        deleteOldPictureOfDay()
+        insert(pictureOfDay)
     }
 }
