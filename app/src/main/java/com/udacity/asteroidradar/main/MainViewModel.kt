@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.database.AsteroidsDatabase.Companion.getInstance
+import com.udacity.database.AsteroidsDatabase.Companion.getInstance
 import com.udacity.repository.AsteroidRepository
 import kotlinx.coroutines.launch
 

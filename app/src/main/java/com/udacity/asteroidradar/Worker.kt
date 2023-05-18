@@ -3,7 +3,7 @@ package com.udacity.asteroidradar
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.udacity.asteroidradar.database.AsteroidsDatabase.Companion.getInstance
+import com.udacity.database.AsteroidsDatabase.Companion.getInstance
 import com.udacity.repository.AsteroidRepository
 import retrofit2.HttpException
 
@@ -16,12 +16,12 @@ class Worker(appContext: Context, params: WorkerParameters): CoroutineWorker(app
         val database = getInstance(applicationContext)
         val asteroidRepository = AsteroidRepository(database)
 
-        try {
+        return try {
             asteroidRepository.updateAsteroids()
             asteroidRepository.updatePictureOfDay()
-            return Result.success()
+            Result.success()
         }catch (e: HttpException){
-            return Result.retry()
+            Result.retry()
         }
     }
 }

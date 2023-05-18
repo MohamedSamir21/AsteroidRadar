@@ -1,5 +1,4 @@
 package com.udacity.asteroidradar.api
-//adOPm1dXcoPNl7XhnBAgszfyvhUO2kNQugwTEMAG
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import org.json.JSONObject

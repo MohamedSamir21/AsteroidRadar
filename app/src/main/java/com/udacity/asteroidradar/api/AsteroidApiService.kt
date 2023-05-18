@@ -19,9 +19,9 @@ private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
-val okHttpClient = OkHttpClient.Builder()
+val okHttpClient: OkHttpClient = OkHttpClient.Builder()
     .addInterceptor { apiKeyInterceptor(it) }
-    .build()!!
+    .build()
 
 private val retrofit = Retrofit.Builder()
     .client(okHttpClient)

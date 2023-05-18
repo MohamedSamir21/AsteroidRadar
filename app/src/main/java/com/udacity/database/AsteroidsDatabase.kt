@@ -1,11 +1,10 @@
-package com.udacity.asteroidradar.database
+package com.udacity.database
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.PictureOfDay
-import com.udacity.database.AsteroidsDatabaseDao
 
 @Database(entities = [Asteroid::class, PictureOfDay::class], version = 1)
 abstract class AsteroidsDatabase: RoomDatabase() {
