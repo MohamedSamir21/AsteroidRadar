@@ -6,7 +6,7 @@ Asteroid Radar is an app to view the asteroids detected by NASA that pass near E
 ### Important Notes:
 <ul>
   <li>This project was created based on educational purposes according to 
-    <a href="https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940">Advanced Android Kotlin Development Nanodgree</a>.
+    <a href="https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940">Advanced Android Kotlin Development Nanodegree</a>.
   </li>
   <li>In order not to break the terms of service, the API key is not provided in this repo. 
     You can put your API key in the (Constants) file from this path ("app/src/main/java/com/udacity/asteroidradar/Constants.kt") or directly press this 
